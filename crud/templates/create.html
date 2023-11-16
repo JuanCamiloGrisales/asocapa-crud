@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card" style="width: 100%; max-width: 900px;">
+        <div class="card-body">
+
+            {% if sucess %}
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">El usuario ha sido añadido exitosamente</h4>
+                </div>
+            {% endif %}
+
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Ha ocurrido un error al añadir el usuario</h4>
+                </div>
+            {% endif %}
+    
+            <form method="POST">
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary btn-lg" type="submit">Añadir</button>
+                </div>
+            </form>
+    
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

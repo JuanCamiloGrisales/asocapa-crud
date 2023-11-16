@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+<style>
+  .oculto{
+    display: none;
+  }
+</style>
+
+{% block buscar %}
+  <form class="d-flex m-3" role="search">
+    <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar Cliente" aria-label="Search">
+  </form>
+{% endblock buscar %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-center align-items-center">
+  <table id="clienteTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">IP</th>
+                <th scope="col">Residencia</th>
+                <th scope="col">Megas</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{cliente.nombre}}</td>
+                    <td>{{cliente.ip}}</td>
+                    <td>{{cliente.residencia}}</td>
+                    <td>{{cliente.megas}}</td>
+                    <td class="d-flex">
+                      <a href="{% url 'update' cliente.id %}" class="btn btn-outline-primary me-2" style="width: 8rem;">Editar</a>
+                      <a href="{% url 'delete' cliente.id %}" class="btn btn-outline-danger" style="width: 8rem;">Eliminar</a>
+                  </td>
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var searchInput = document.getElementById('searchInput');
+    var clienteTable = document.getElementById('clienteTable');
+
+    searchInput.addEventListener('input', function () {
+      var searchTerm = searchInput.value.toLowerCase();
+
+      // Oculta o muestra las filas de la tabla según el término de búsqueda
+      var rows = clienteTable.querySelectorAll('tbody tr');
+      rows.forEach(function (row) {
+        var rowData = row.textContent.toLowerCase();
+        if (rowData.includes(searchTerm)) {
+          row.style.display = 'table-row';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+{% endblock content %}
